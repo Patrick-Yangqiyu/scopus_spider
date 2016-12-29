@@ -17,7 +17,7 @@ def strip_email_protection(s):
 
 
 
-root='https://www.scopus.com/results/authorNamesList.uri'
+root='https://www.scopus.authors.txtcom/results/authorNamesList.uri'
 #获取sid
 def GetSid():
     root2='https://www.scopus.com/'

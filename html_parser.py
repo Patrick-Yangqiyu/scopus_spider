@@ -52,6 +52,29 @@ class HtmlParser(object):
         ArticlesLink=soup2.find_all('div',class_='authorResultsOptionalLinks')[0].a['href']
         return WenxinNum,name,area,ArticlesLink,lishi
 
+    def GetAuthorMessage2(self, s2):
+        fout = open('output.html', 'w',encoding="UTF-8")
+        fout.write(s2.text)
+        #soup2 = BeautifulSoup(s2.text, 'html.parser')
+        soup2=BeautifulSoup(open('output.html','r',encoding="UTF-8"),'html.parser')
+        namesec=soup2.find_all('div',class_='nameSection')
+        span2=namesec[0].find_all('div',class_='authAffilcityCounty')
+        namejihe=namesec[0].h1.text.replace(namesec[0].h1.span.text,'').replace('\n','').split(',')
+        name=namejihe[-1].strip()+' '+namejihe[0]
+        firstname = namejihe[-1].strip()
+        lastname = namejihe[0]
+        WenxinNum=soup2.find('a',id='docCntLnk').text.strip()
+        area=str(span2[0].text).strip().replace('\n',' ')
+        arealist = area.split(',')
+        lishi=soup2.find('div',class_='hisPubyear').text.replace('\n','').strip()
+        ArticlesLink=soup2.find_all('div',class_='authorResultsOptionalLinks')[0].a['href']
+        if len(arealist) == 0:
+            return WenxinNum, name, area, ArticlesLink, lishi, firstname, lastname, '', '', '', ''
+        country = arealist[-1]
+        city = arealist[-2]
+        university = arealist[0]
+        dept = arealist[1]
+        return WenxinNum,name,area,ArticlesLink,lishi,firstname,lastname,country,city,university,dept
     def GetArticles(self, s3):
         #fout2 = open('output2.html', 'w',encoding="UTF-8")
         #fout2.write(s3.text)
